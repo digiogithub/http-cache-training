@@ -1,0 +1,85 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+parameters:
+    locale: en
+
+framework:
+    esi:             { enabled: true }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        handler_id:  ~
+    fragments: { path: /_fragment }
+    http_method_override: true
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles: []
+    filters:
+        cssrewrite: ~
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        charset:  UTF8
+        path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+        metadata_cache_driver:
+            type: service
+            id: stash.adapter.doctrine.default_cache
+        query_cache_driver:
+            type: service
+            id: stash.adapter.doctrine.default_cache
+        result_cache_driver:
+            type: service
+            id: stash.adapter.doctrine.default_cache
+
+        second_level_cache:
+            enabled: true
+            log_enabled: true
+
+            region_cache_driver:
+                type: service
+                id: stash.adapter.doctrine.default_cache
+
+            regions:
+                default:
+                    cache_driver:
+                        type: service
+                        id: stash.adapter.doctrine.default_cache
+
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+stash:
+    drivers: [ Apc ]
+    registerDoctrineAdapter: true
+    Apc: ~

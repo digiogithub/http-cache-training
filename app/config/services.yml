@@ -1,0 +1,9 @@
+parameters:
+
+
+services:
+    playlist_repository:
+        class: AppBundle\Entity\PlaylistRepository
+        factory: [@doctrine, "getRepository"]
+        arguments:
+            - "AppBundle:Playlist"
