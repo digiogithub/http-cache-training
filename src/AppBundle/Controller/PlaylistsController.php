@@ -29,7 +29,6 @@ class PlaylistsController extends Controller
     /**
      * @Route("/{id}/tracks")
      * @ParamConverter("playlist", class="AppBundle:Playlist", options={"repository_method" = "withTracks"})
-     * @Cache(expires="next week", public=true)
      */
     public function tracksAction(Playlist $playlist)
     {
@@ -51,7 +50,6 @@ class PlaylistsController extends Controller
 
     /**
      * @ParamConverter("playlist", class="AppBundle:Playlist", options={"repository_method" = "withTracks"})
-     * @Cache(public=true, maxage="3600", smaxage="7200")
      */
     public function tracksListAction(Playlist $playlist)
     {
