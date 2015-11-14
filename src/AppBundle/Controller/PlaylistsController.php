@@ -16,6 +16,7 @@ class PlaylistsController extends Controller
 {
     /**
      * @Route("/")
+     * @Cache(expires="+1 week", public=true, maxage="86400", smaxage="43200")
      */
     public function indexAction()
     {
@@ -29,6 +30,11 @@ class PlaylistsController extends Controller
     /**
      * @Route("/{id}/tracks")
      * @ParamConverter("playlist", class="AppBundle:Playlist", options={"repository_method" = "withTracks"})
+     * @Cache(
+     *      public=true,
+     *      lastModified="playlist.getUpdatedAt()",
+     *      etag="'Playlist' ~ playlist.getId() ~ playlist.countOfTracks() ~ playlist.getUpdatedAt().format('dmYHis')"
+     * )
      */
     public function tracksAction(Playlist $playlist)
     {
@@ -40,8 +46,16 @@ class PlaylistsController extends Controller
     /**
      * @Route("/{id}/tracks/{trackId}")
      * @ParamConverter("track", class="AppBundle:Track", options={"id" = "trackId", "repository_method" = "withAlbumMediaTypeAndGenre"})
+     * @Cache(
+     *      public=true,
+     *      maxage="7200",
+     *      smaxage="3600",
+     *      expires="+2 day",
+     *      lastModified="track.getUpdatedAt()",
+     *      etag="'Track' ~ track.getId() ~ track.getUpdatedAt().format('dmYHis')"
+     * )
      */
-    public function trackAction($id, Track $track)
+    public function trackAction(Playlist $playlist, Track $track)
     {
         return $this->render('playlists/track.html.twig', [
             'track' => $track
@@ -50,6 +64,7 @@ class PlaylistsController extends Controller
 
     /**
      * @ParamConverter("playlist", class="AppBundle:Playlist", options={"repository_method" = "withTracks"})
+     * @Cache(public=true, smaxage="86400")
      */
     public function tracksListAction(Playlist $playlist)
     {

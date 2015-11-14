@@ -2,9 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="Track", uniqueConstraints={@ORM\UniqueConstraint(name="IPK_Track", columns={"TrackId"})}, indexes={@ORM\Index(name="IFK_TrackMediaTypeId", columns={"MediaTypeId"}), @ORM\Index(name="IFK_TrackGenreId", columns={"GenreId"}), @ORM\Index(name="IFK_TrackAlbumId", columns={"AlbumId"})})
@@ -90,6 +92,14 @@ class Track
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceLine", mappedBy="track", fetch="EXTRA_LAZY")
      */
     private $invoiceLines;
+
+    /**
+     * @var DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="UpdatedAt", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * Get trackid
@@ -332,5 +342,29 @@ class Track
     public function removeInvoiceLine(InvoiceLine $invoiceLine)
     {
         $this->invoiceLines->removeElement($invoiceLine);
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Track
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

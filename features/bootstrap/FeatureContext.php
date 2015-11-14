@@ -61,7 +61,6 @@ class FeatureContext extends MinkContext implements Context, SnippetAcceptingCon
     public function iShouldSeeTheLastModifiedHeader()
     {
         $lastModified = $this->getSession()->getResponseHeader('last-modified');
-
         assertNotNull($lastModified, 'I\'m not able to find the last-modified header!');
         assertNotFalse(
             DateTime::createFromFormat(DateTime::RFC1123, $lastModified),

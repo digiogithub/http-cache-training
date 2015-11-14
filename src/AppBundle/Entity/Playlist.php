@@ -153,11 +153,6 @@ class Playlist
         return $this->updatedAt;
     }
 
-    public function getUpdatedAtAsString()
-    {
-        return $this->updatedAt->format('dmYHis');
-    }
-
     public function countOfTracks()
     {
         return $this->tracks->count();

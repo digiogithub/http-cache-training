@@ -58,20 +58,6 @@ doctrine:
             type: service
             id: stash.adapter.doctrine.default_cache
 
-        second_level_cache:
-            enabled: true
-            log_enabled: true
-
-            region_cache_driver:
-                type: service
-                id: stash.adapter.doctrine.default_cache
-
-            regions:
-                default:
-                    cache_driver:
-                        type: service
-                        id: stash.adapter.doctrine.default_cache
-
 swiftmailer:
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
@@ -80,6 +66,4 @@ swiftmailer:
     spool:     { type: memory }
 
 stash:
-    drivers: [ Apc ]
     registerDoctrineAdapter: true
-    Apc: ~
